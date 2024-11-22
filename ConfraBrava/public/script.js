@@ -6,7 +6,7 @@ document.getElementById('form').addEventListener('submit', function(e) {
   const attendance = document.getElementById('attendance').checked;
 
   // Enviando os dados para a API via POST
-  fetch('http://localhost:5000/api/presencas', {
+  fetch('https://confra-brava.vercel.app/api/presencas', {
     method: 'POST',  // Definindo o método como POST
     headers: {
       'Content-Type': 'application/json'  // Informando que o conteúdo é JSON
