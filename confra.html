@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Presença</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input {
+            font-size: 18px;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Confirmação de Presença</h1>
+    <form id="confirmationForm">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="confirmPresence">Confirmar Presença:</label>
+        <input type="checkbox" id="confirmPresence" name="confirmPresence"><br><br>
+
+        <button type="submit">Salvar</button>
+    </form>
+
+    <div id="confirmationMessage" class="message"></div>
+
+    <script>
+        // Função para salvar os dados no LocalStorage
+        function saveConfirmationData(name, confirmed) {
+            localStorage.setItem('name', name);
+            localStorage.setItem('confirmed', confirmed);
+        }
+
+        // Função para exibir a confirmação de presença
+        function displayConfirmationMessage() {
+            const name = localStorage.getItem('name');
+            const confirmed = localStorage.getItem('confirmed') === 'true';
+
+            if (name) {
+                const message = confirmed 
+                    ? `${name}, sua presença foi confirmada!`
+                    : `${name}, você não confirmou sua presença ainda.`;
+                document.getElementById('confirmationMessage').textContent = message;
+            }
+        }
+
+        // Carregar dados se existirem ao abrir a página
+        window.onload = function() {
+            displayConfirmationMessage();
+            const savedName = localStorage.getItem('name');
+            if (savedName) {
+                document.getElementById('name').value = savedName;
+                document.getElementById('confirmPresence').checked = localStorage.getItem('confirmed') === 'true';
+            }
+        };
+
+        // Envio do formulário
+        document.getElementById('confirmationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            const name = document.getElementById('name').value;
+            const confirmed = document.getElementById('confirmPresence').checked;
+
+            saveConfirmationData(name, confirmed);
+            displayConfirmationMessage();
+        });
+    </script>
+</body>
+</html>
